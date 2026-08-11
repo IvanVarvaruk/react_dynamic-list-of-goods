@@ -5,7 +5,7 @@ import { GoodsList } from './GoodsList';
 import { getAll, get5First, getRedGoods } from './api/goods';
 import { Good } from './types/Good';
 
-export const App: React.FC = () =>{
+export const App: React.FC = React.memo(() => {
   const [goods, setGoods] = useState<Good[]>([]);
 
   return (
@@ -15,7 +15,7 @@ export const App: React.FC = () =>{
       <button
         type="button"
         data-cy="all-button"
-        onClick={() => getAll().then(goods => setGoods(goods))}
+        onClick={() => getAll().then(item => setGoods(item))}
       >
         Load all goods
       </button>
@@ -23,7 +23,7 @@ export const App: React.FC = () =>{
       <button
         type="button"
         data-cy="first-five-button"
-        onClick={() => get5First().then(goods => setGoods(goods))}
+        onClick={() => get5First().then(item => setGoods(item))}
       >
         Load 5 first goods
       </button>
@@ -31,11 +31,14 @@ export const App: React.FC = () =>{
       <button
         type="button"
         data-cy="red-button"
-        onClick={() => getRedGoods().then(goods => setGoods(goods))}
+        onClick={() => getRedGoods().then(item => setGoods(item))}
       >
         Load red goods
       </button>
 
       <GoodsList goods={goods} />
     </div>
-)};
+  );
+});
+
+App.displayName = 'App';
